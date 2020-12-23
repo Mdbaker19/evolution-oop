@@ -12,9 +12,10 @@ public class Begin{
         Input sc = new Input();
 
         Cell first = new Cell(1);
-        first.setStats(5, 5, 5);
+        first.setStats(50, 50, 50);
 
         Enemy bacteria = new Enemy("Bacteria");
+        bacteria.setStats(30, 30, 30);
 
         boolean keepGoing = true;
         do{
@@ -24,13 +25,20 @@ public class Begin{
                 keepGoing = false;
                 first.die();
             } else {
-                runGame(option, first, bacteria, sc);
+                System.out.println(" ");
+                runGame(option, first, bacteria, sc, first.getStats(), bacteria.getStats());
+                System.out.println(" ");
             }
         }while(keepGoing);
     }
 
-    public boolean battle(Cell player, Enemy bad, ArrayList<Integer> pStats, ArrayList<Integer> eStats){
+    public static boolean battle(Cell player, Enemy bad, HashMap<String, Integer> pStats, HashMap<String, Integer> eStats){
         boolean victory = false;
+        System.out.printf("Encountered a wild %s%n", bad.getType());
+        System.out.println("Enemy stats");
+        System.out.println(eStats);
+        System.out.println("Player stats");
+        System.out.println(pStats);
 
 
         return victory;
@@ -40,11 +48,14 @@ public class Begin{
         System.out.println("[1] Train, [2] Evolve, [3] View Stats, [4] Mutations, [5] End");
     }
 
-    public static void runGame(int choice, Cell player, Enemy bacteria,Input sc){
+    public static void runGame(int choice, Cell player, Enemy bacteria, Input sc, HashMap<String, Integer> pStats, HashMap<String, Integer> eStats){
         switch (choice){
             case 1:
-                returnStats(player);
-                player.train();
+                if(battle(player, bacteria, pStats, eStats)) {
+                    player.train();
+                } else {
+                    System.out.println("Lost the fight");
+                }
                 break;
             case 2:
                 if(player.evolve(player)){
@@ -68,7 +79,8 @@ public class Begin{
         }
     }
 
-    public static HashMap<String, Integer> returnStats(Cell player){
+    // ======> THIS SHOULD PROBABLY BE IN THE PLAYER CLASS
+    public static HashMap<String, Integer> updateStats(Cell player){
         HashMap<String, Integer> updatedStats = new HashMap<>();
         HashMap<String, Integer> currStats = player.getStats();
         System.out.println(currStats);
