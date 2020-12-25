@@ -54,7 +54,7 @@ public class Cell extends Life {
     }
 
     public void train(){
-        System.out.println("Training, gained 5 cells");
+        System.out.println("Training finished. Gained 5 cells");
         this.setCellCount(this.getCellCount() + 5);
     }
 
